@@ -117,25 +117,6 @@ LLM-Clustering-Paper/
 
 ---
 
-## 🔐 Security
-
-**Your API key is safe:**
-- ✅ `.env` file in `.gitignore` (never committed)
-- ✅ `.env.example` shows safe template without keys
-- ✅ All code properly handles secrets via `python-dotenv`
-
-**Before pushing to GitHub:**
-```bash
-# Verify .env is ignored
-cat .gitignore  # Should include ".env"
-
-# Double-check no secrets in staged files
-git diff --cached | grep -i key
-git diff --cached | grep -i token
-```
-
----
-
 ## 📚 Main Workflow
 
 ### Step 1: Data Preparation
@@ -192,30 +173,11 @@ This project validates LLM outputs using **5 quantitative metrics**:
 
 **Why these metrics?**
 - ✅ Domain-specific (security, ML clustering)
-- ✅ Not BLEU/ROUGE (those are for translation/summarization)
 - ✅ Directly measure interpretability quality
 - ✅ Reproducible and verifiable
 
 See `DOCUMENTATION/TECHNICAL_APPENDIX_METRICS.md` for formulas and verification procedures.
 
----
-
-## 📖 Key Documentation
-
-### For Paper Writing
-- **START_HERE.md** → Project overview
-- **PROPOSED_METHODOLOGY.md** → Complete paper structure (26KB)
-- **METRIC_VALIDATION_REPORT.md** → Full validation results
-
-### For Quick Reference
-- **METRICS_QUICK_REFERENCE.md** → Tables for papers, presentations
-- **GROUNDED_INTERPRETABILITY_DEMO.md** → Real examples with verification
-
-### For Reproducibility
-- **TECHNICAL_APPENDIX_METRICS.md** → Methodology, formulas, verification steps
-- All data files provided: `cluster_profiles.json`, `llm_multi_persona_analysis.json`
-
----
 
 ## 🧬 Dataset
 
@@ -396,17 +358,6 @@ See `requirements.txt` for complete dependencies.
 
 ---
 
-## 🤝 Contributing
-
-Contributions welcome! Areas for improvement:
-
-- [ ] Additional persona types (e.g., Risk Manager, Business Analyst)
-- [ ] Alternative LLM models (Claude, Gemini, open-source)
-- [ ] Real-time clustering pipeline
-- [ ] Web interface for visualization
-- [ ] Automated report generation
-
----
 
 ## 📝 Citation
 
@@ -415,7 +366,6 @@ If you use this project in research, please cite:
 ```bibtex
 @software{llm_clustering_2026,
   title={LLM-Powered Anomaly Cluster Interpretation},
-  author={Your Name},
   year={2026},
   url={https://github.com/yourusername/LLM-Clustering-Paper}
 }
@@ -448,16 +398,4 @@ A: Use `NOTEBOOKS/create_subset.ipynb` to generate smaller subsets for testing.
 **Q: Are the LLM outputs reproducible?**
 A: No—LLM outputs have inherent randomness. However, the personas' *conclusions* are highly consistent (100% consensus on threat types).
 
----
 
-## 📞 Support
-
-- **Issues**: Use GitHub Issues for bugs and questions
-- **Discussions**: Use GitHub Discussions for ideas and research questions
-- **Email**: [Your email if applicable]
-
----
-
-**Last Updated**: January 31, 2026  
-**Status**: ✅ Publication-Ready  
-**Metrics**: 100% Grounding, Zero Hallucinations, 100% Feature Coverage

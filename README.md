@@ -47,14 +47,7 @@ pip install -r requirements.txt
 
 ### 2. Configure OpenAI API
 
-```bash
-# Copy the template
-cp .env.example .env
 
-# Edit .env and add your OpenAI API key
-# ⚠️ NEVER commit .env to git - it's in .gitignore
-nano .env
-```
 
 ### 3. Run Analysis
 

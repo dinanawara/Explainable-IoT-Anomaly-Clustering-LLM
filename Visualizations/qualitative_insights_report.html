@@ -1,0 +1,285 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cluster Interpretation Report</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; background: #f5f5f5; }
+        .cluster-section { background: white; margin: 20px 0; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        .cluster-header { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px; border-radius: 5px; margin-bottom: 15px; }
+        .cluster-header h2 { margin: 0; font-size: 24px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; margin: 15px 0; }
+        .stat-box { background: #f9f9f9; padding: 10px; border-left: 4px solid #667eea; }
+        .stat-label { font-weight: bold; color: #333; font-size: 12px; }
+        .stat-value { font-size: 18px; color: #667eea; font-weight: bold; }
+        .interpretation { background: #f0f4ff; padding: 15px; border-radius: 5px; margin: 15px 0; line-height: 1.6; }
+        .persona-label { font-size: 12px; font-weight: bold; color: #764ba2; margin-bottom: 10px; }
+        table { width: 100%; border-collapse: collapse; margin: 10px 0; }
+        th, td { padding: 8px; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f9f9f9; font-weight: bold; }
+        .warning { color: #d9534f; font-weight: bold; }
+        .success { color: #5cb85c; font-weight: bold; }
+        footer { text-align: center; color: #999; margin-top: 40px; font-size: 12px; }
+    </style>
+</head>
+<body>
+
+<h1>🔍 Anomaly Clustering - Qualitative Interpretation Report</h1>
+<p><strong>Generated:</strong> January 29, 2026 | <strong>Dataset:</strong> Top 5,000 Anomalous Network Flows</p>
+
+
+<div class="cluster-section">
+    <div class="cluster-header">
+        <h2>Cluster 0: 1594 Anomalous Flows (31.88%)</h2>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-box">
+            <div class="stat-label">Mean Anomaly Score</div>
+            <div class="stat-value">2.5595</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Max Anomaly Score</div>
+            <div class="stat-value">46.0242</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Primary Protocol</div>
+            <div class="stat-value">UDP</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Primary Destination Port</div>
+            <div class="stat-value">80</div>
+        </div>
+    </div>
+
+    <h3>🌐 Network Characteristics</h3>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td><strong>Protocol Distribution</strong></td>
+            <td>UDP: 844 | TCP: 750</td>
+        </tr>
+        <tr>
+            <td><strong>Connection State</strong></td>
+            <td>INT: 844 | REQ: 404 | RST: 340</td>
+        </tr>
+        <tr>
+            <td><strong>Avg Packets per Flow</strong></td>
+            <td>7.24</td>
+        </tr>
+        <tr>
+            <td><strong>Avg Bytes per Flow</strong></td>
+            <td>598.46</td>
+        </tr>
+        <tr>
+            <td><strong>Flow Duration Variance</strong></td>
+            <td>273811 seconds</td>
+        </tr>
+    </table>
+
+    <h3>🎯 LLM Interpretation</h3>
+
+    <div class="interpretation">
+        <div class="persona-label">🔓 Penetration Tester</div>
+        <p>1. **Attack Vectors**: The attack vector primarily involves the use of both TCP and UDP protocols, with a higher percentage of UDP. A significant amount of anomalies are found in the initial connection status (INT) and reset (RST) states, suggesting possible scanning or DoS attacks. The high traffic directed towards port 80 might indicate HTTP-based attacks. 
+
+2. **Threat Level**: The threat level can be considered as HIGH. This is due to a large number of samples being part of this anomaly cluster, substantial traffic directed towards a single destination (192.168.100.3), and a high LOF anomaly score. 
+
+3. **Attacker Profile**: Given the sophistication of the attack, this is likely the work of a cybercriminal or organized crime group. The attacks are systematic, well-coordinated, focus on a specific target, and employ evasion techniques - characteristics that go beyond what a script kiddie would be capable of.
+
+4. **Exploitation Method**: The attack appears to be exploiting the network through a combination of scanning, potential DoS attacks, and possibly HTTP-based attacks, given the high traffic on port 80. 
+
+5. **Defense Evasion**: The attackers seem to be using both TCP and UDP protocols and altering their source IP addresses to avoid detection. They also appear to be pacing their attacks over a long period (488.5 hours) to blend in with normal traffic. 
+
+**Recommendation**: Immediate action is needed to secure the network. Monitor and restrict traffic to port 80 and investigate the traffic originating from the top source IPs. Implement rate limiting to prevent potential DoS attacks. Further, conduct a detailed analysis of the traffic to the destination IP 192.168.100.3 and examine logs for any unusual HTTP requests. Lastly, increase monitoring and implement stricter security measures to prevent future attacks.</p>
+    </div>
+
+    <div class="interpretation">
+        <div class="persona-label">🔬 Security Researcher</div>
+        <p>Behavioral Signature: This cluster's traffic shows a distinctive pattern where a small number of internal IP addresses (192.168.100.147, 192.168.100.149, 192.168.100.148) are continuously making connections to a limited set of destination addresses, predominantly to port 80. The traffic is evenly distributed between TCP and UDP protocols, with many requests being in the "REQ" or "INT" state. 
+
+Classification: The constant communication to the same destination, especially on port 80, suggests a Command and Control (C2) server communication. This type of activity is usually associated with botnets (Zeus, Conficker, etc.) as they frequently use HTTP communication for command and control purpose [1].
+
+Statistical Patterns: The packet count per flow varies from 1 to 28 with a mean of 7.24, which is relatively high for normal traffic. The bytes per flow range from 60 to 2453 with a mean of 598.46, which is also quite high. These patterns may indicate large volumes of data being transferred, possibly in an attempt to overwhelm the network or exfiltrate data.
+
+Temporal Characteristics: The time range span of 488.5 hours suggests that this traffic pattern has been sustained over a long period. Temporal variance is also significantly high, indicating irregular intervals between transmissions. This could be a strategy to avoid detection by blending in with normal user activity.
+
+Research Relevance: This cluster is scientifically interesting as it showcases a sophisticated strategy potentially used by botnets to avoid detection. The combination of high volume traffic, use of common ports, and irregular transmission intervals can make these types of threats difficult to detect using traditional methods. This highlights the importance of advanced anomaly detection techniques in network security.
+
+Reference:
+[1] Zhao, D., Traore, I., Sayed, B., Lu, W., Saad, S., Ghorbani, A., & Garant, D. (2013). Botnet detection based on traffic behavior analysis and flow intervals. Computers & Security, 39, 2-16.</p>
+    </div>
+
+    <div class="interpretation">
+        <div class="persona-label">🛡️ SecOps Engineer</div>
+        <p>1. **Detection Method**: The first step is setting up an anomaly detection system that leverages machine learning or statistical analysis to identify unusual network behavior. This can be done using Security Information and Event Management (SIEM) tools like Splunk, LogRhythm, or IBM's QRadar which can ingest and analyze the network logs. Specifically, we can set up alerts for high LOF anomaly scores, a sudden increase in the number of network connections (REQ, RST), or unusual traffic patterns from certain source addresses.
+
+2. **Alert Severity**: Given the high LOF anomaly score, a significant percentage of total samples, and the traffic primarily directed towards port 80 (commonly used for HTTP which might indicate a DDoS or web-application attack), I would recommend a HIGH severity level for this alert.
+
+3. **Response Playbook**: 
+
+    - Isolate affected systems: The network traffic from the top source addresses (192.168.100.147, 192.168.100.149, and 192.168.100.148) should be temporarily blocked or isolated to prevent further potential spread.
+    - Investigate: Carry out a detailed investigation on the source addresses and destination addresses involved. Check system logs for any unusual activity. 
+    - Escalate: Involve the incident response team to conduct a thorough investigation.
+    - Reporting: Document the incident, the steps taken, and the findings for future reference and to improve the incident response process.
+
+4. **IoCs**: 
+    - Source IP Addresses: 192.168.100.147, 192.168.100.149, 192.168.100.148.
+    - Destination IP Addresses: 192.168.100.3, 192.168.100.7, 192.168.100.5.
+    - Destination Port: 80, 1, 3306.
+    - High volume of traffic to port 80.
+    - High LOF anomaly score.
+
+5. **Mitigation**: 
+    - Network Segregation: Implement network segregation to prevent lateral movement within the network.
+    - Update and Patch: Ensure all systems are updated and patched to the latest versions to prevent exploitation of known vulnerabilities.
+    - Implement firewall rules: Restrict traffic to port 80 and other sensitive ports to only trusted IPs.
+    - Conduct employee awareness: Train employees on the importance of network security and how to identify potential phishing attempts or other malicious activities.
+    - Implement a strong password policy and use multi-factor authentication where possible.</p>
+    </div>
+
+    <div class="interpretation">
+        <div class="persona-label">📊 Data Analyst</div>
+        <p>**Feature Anomalies**: The most anomalous features include packet count, bytes, and destination ports. The packet count per flow has a mean of 7.24 and a range from 1 to 28, suggesting a high variance in packet delivery. The bytes per flow also have a significant range from 60 to 2453 bytes, indicating that the size of the data packets significantly differs. The destination ports are another anomaly, with port "80" being excessively used (1549 instances) compared to other ports.
+
+**Cluster Quality**: This cluster is quite distinct and well-separated. It is distinguishable due to its unique feature combination: high packet counts and bytes per flow, a majority of traffic directed to port "80", and a distinct distribution of source and destination IPs. The cluster also represents a significant portion of the total data (31.88%), making it a critical group to monitor for potential security threats.
+
+**Outliers Within Cluster**: The distribution of the LOF Anomaly Score suggests the presence of outliers within the cluster. With a maximum score of 46.0242 and a standard deviation of 4.3245, there are instances in this cluster that deviate significantly from the mean score of 2.5595. These outliers may represent sub-patterns or unique forms of network behavior that warrant further investigation.
+
+**Predictive Power**: The cluster seems to hold significant predictive power for automated classification. The distinct statistical characteristics, coupled with the label "1" for all instances in the cluster, indicate that this group can be reliably associated with a specific type of network behavior or potential threat. However, the presence of outliers within the cluster may affect the generalization power of a classification model.
+
+**Data Quality Issues**: No obvious data artifacts or measurement errors are apparent from the given statistics. However, the high usage of port "80" could be worth investigating further, as it may be the result of a data collection bias or a genuine network behavior. The large temporal variance also suggests that the data might encompass a variety of different network conditions, which may need to be accounted for in any predictive modeling efforts.</p>
+    </div>
+
+</div>
+
+<div class="cluster-section">
+    <div class="cluster-header">
+        <h2>Cluster 1: 1700 Anomalous Flows (34.00%)</h2>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-box">
+            <div class="stat-label">Mean Anomaly Score</div>
+            <div class="stat-value">2.4109</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Max Anomaly Score</div>
+            <div class="stat-value">46.7348</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Primary Protocol</div>
+            <div class="stat-value">UDP</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Primary Destination Port</div>
+            <div class="stat-value">80</div>
+        </div>
+    </div>
+
+    <h3>🌐 Network Characteristics</h3>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td><strong>Protocol Distribution</strong></td>
+            <td>UDP: 942 | TCP: 758</td>
+        </tr>
+        <tr>
+            <td><strong>Connection State</strong></td>
+            <td>INT: 942 | REQ: 404 | RST: 351</td>
+        </tr>
+        <tr>
+            <td><strong>Avg Packets per Flow</strong></td>
+            <td>7.25</td>
+        </tr>
+        <tr>
+            <td><strong>Avg Bytes per Flow</strong></td>
+            <td>578.95</td>
+        </tr>
+        <tr>
+            <td><strong>Flow Duration Variance</strong></td>
+            <td>253718 seconds</td>
+        </tr>
+    </table>
+
+    <h3>🎯 LLM Interpretation</h3>
+
+    <div class="interpretation">
+        <p><em>Run the LLM analysis cell above to generate AI-powered interpretations for this cluster.</em></p>
+    </div>
+
+</div>
+
+<div class="cluster-section">
+    <div class="cluster-header">
+        <h2>Cluster 2: 1706 Anomalous Flows (34.12%)</h2>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-box">
+            <div class="stat-label">Mean Anomaly Score</div>
+            <div class="stat-value">2.4253</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Max Anomaly Score</div>
+            <div class="stat-value">46.0243</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Primary Protocol</div>
+            <div class="stat-value">UDP</div>
+        </div>
+        <div class="stat-box">
+            <div class="stat-label">Primary Destination Port</div>
+            <div class="stat-value">80</div>
+        </div>
+    </div>
+
+    <h3>🌐 Network Characteristics</h3>
+    <table>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        <tr>
+            <td><strong>Protocol Distribution</strong></td>
+            <td>UDP: 939 | TCP: 755</td>
+        </tr>
+        <tr>
+            <td><strong>Connection State</strong></td>
+            <td>INT: 939 | REQ: 426 | RST: 328</td>
+        </tr>
+        <tr>
+            <td><strong>Avg Packets per Flow</strong></td>
+            <td>7.51</td>
+        </tr>
+        <tr>
+            <td><strong>Avg Bytes per Flow</strong></td>
+            <td>608.71</td>
+        </tr>
+        <tr>
+            <td><strong>Flow Duration Variance</strong></td>
+            <td>236707 seconds</td>
+        </tr>
+    </table>
+
+    <h3>🎯 LLM Interpretation</h3>
+
+    <div class="interpretation">
+        <p><em>Run the LLM analysis cell above to generate AI-powered interpretations for this cluster.</em></p>
+    </div>
+
+</div>
+
+<footer>
+    <p>Report generated by Anomaly Clustering Analysis | Using K-Means (k=3) | Interpreted by GPT-4</p>
+    <p>⚠️ These interpretations are AI-generated and should be validated by security experts</p>
+</footer>
+
+</body>
+</html>

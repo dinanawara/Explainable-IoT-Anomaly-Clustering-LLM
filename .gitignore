@@ -1,0 +1,92 @@
+# Environment Variables & Secrets
+.env
+.env.local
+.env.*.local
+*.pem
+*.key
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual Environments
+.venv
+venv/
+ENV/
+env/
+.virtualenv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+.project
+.pydevproject
+.settings/
+*.sublime-project
+*.sublime-workspace
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+*.ipynb_checkpoints
+
+# Data (optional - can include if public)
+# Uncomment to exclude large data files from git
+# *.csv
+# Data/raw/
+# Data/processed/
+
+# Outputs (optional)
+# Uncomment to exclude generated outputs
+# *.png
+# *.jpg
+# *.html
+
+# OS
+.DS_Store
+Thumbs.db
+*.log
+*.pot
+*.mo
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+
+# API Keys & Credentials (belt and suspenders)
+**/secrets.txt
+**/credentials.json
+**/api_keys.txt
+**/token.txt
+
+# Large files (optional)
+*.tar.gz
+*.zip
+Data/Bot-IoT-Dataset/*.csv
+Data/Bot-IoT-Dataset/*.csv

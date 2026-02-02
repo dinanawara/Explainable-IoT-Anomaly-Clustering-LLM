@@ -782,21 +782,5 @@ LLM-Clustering-Paper/
 
 ---
 
-## 9. Limitations & Future Work
-
-### 9.1 Current Limitations
-- LLM analysis inherently stochastic (temperature=0.7)
-- Requires OpenAI API key and associated costs
-- GPT-4 knowledge cutoff may miss very recent attacks
-- Single dataset (Bot-IoT) - generalization unclear
-
-### 9.2 Future Directions
-- Multi-dataset evaluation (NSL-KDD, CICIDS2017)
-- Other LLM models (Claude, Llama 2)
-- Fine-tuned personas for specific domains
-- Automated persona voting/consensus mechanism
-- Real-time clustering with incremental updates
-
----
 
 **End of Proposed Methodology**

@@ -359,19 +359,6 @@ See `requirements.txt` for complete dependencies.
 ---
 
 
-## 📝 Citation
-
-If you use this project in research, please cite:
-
-```bibtex
-@software{llm_clustering_2026,
-  title={LLM-Powered Anomaly Cluster Interpretation},
-  year={2026},
-  url={https://github.com/yourusername/LLM-Clustering-Paper}
-}
-```
-
----
 
 ## ⚖️ License
 
